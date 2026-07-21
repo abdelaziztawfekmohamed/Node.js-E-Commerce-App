@@ -5,6 +5,7 @@ const i18next = require("i18next");
 const i18nextFsBackend = require("i18next-fs-backend");
 const i18nextMiddleware = require("i18next-http-middleware");
 const cors = require("cors");
+const categoryRouter = require("./routes/category.route");
 
 i18next
   .use(i18nextFsBackend)
@@ -29,6 +30,9 @@ app.use(
 );
 
 app.use(i18nextMiddleware.handle(i18next));
+app.use(express.json());
+
+app.use(`${api}/categories`, categoryRouter);
 app.get(`${api}/test`, (req, res) => {
   res.send(req.t("validationFailed"));
 });
