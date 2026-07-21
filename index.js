@@ -4,6 +4,7 @@ require("dotenv").config();
 const i18next = require("i18next");
 const i18nextFsBackend = require("i18next-fs-backend");
 const i18nextMiddleware = require("i18next-http-middleware");
+const cors = require("cors");
 
 i18next
   .use(i18nextFsBackend)
@@ -18,6 +19,14 @@ i18next
 const app = express();
 const port = process.env.PORT;
 const api = process.env.API;
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "Accept-Language"],
+  }),
+);
 
 app.use(i18nextMiddleware.handle(i18next));
 app.get(`${api}/test`, (req, res) => {
